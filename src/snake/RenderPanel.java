@@ -34,7 +34,7 @@ public class RenderPanel extends JPanel {
 
 		g.setColor(GREEN);
 
-		g.fillRect(0, 0, 800, 700);
+		g.fillRect(0, 0, Frame.getWidth(), Frame.getHeight());
 
 		g.setColor(Color.BLUE);
 

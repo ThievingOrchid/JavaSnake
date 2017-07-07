@@ -5,15 +5,22 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /**
+ * Adapted from an online tutorial by Jaryt Bustard
+ * https://www.youtube.com/watch?v=S_n3lryyGZM
+ * https://github.com/Jaryt/SnakeTutorial
+ * 
  * @author Porter Reynolds
  */
 public class Snake {
 
 	private ArrayList<Point> snakeParts = new ArrayList<Point>();
+	
 
-	public static final int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, SCALE = 10;
+	public static final short UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, SCALE = 10;
+	private final int SCALEHEIGHT=Frame.getHeight()/SCALE;
+	private final int SCALEWIDTH=Frame.getWidth()/SCALE;
 
-	private int direction = DOWN, tailLength = 14;
+	private int direction, tailLength;
 
 	private Point head;
 
@@ -31,53 +38,44 @@ public class Snake {
 
 	}
 
+	/**
+	 * moves the snake
+	 * 
+	 * @return true if the snake was able to move, false if not
+	 */
 	public boolean act() {
 		getSnakeParts().add(new Point(getHead().x, getHead().y));
-
-		if (getDirection() == UP) {
-			if (getHead().y - 1 >= 0 && noTailAt(getHead().x, getHead().y - 1)) {
-				setHead(new Point(getHead().x, getHead().y - 1));
-			} else
-				return true;
+		switch (getDirection()) {
+		case UP:
+			setHead(new Point(getHead().x, getHead().y - 1));
+			break;
+		case DOWN:
+			setHead(new Point(getHead().x, (getHead().y + 1)%SCALEHEIGHT));
+			break;
+		case LEFT:
+			setHead(new Point(getHead().x - 1, getHead().y));
+			break;
+		case RIGHT:
+			setHead(new Point((getHead().x + 1)%SCALEWIDTH, getHead().y));
+			break;
 		}
-
-		if (getDirection() == DOWN) {
-			if (getHead().y + 1 < 67 && noTailAt(getHead().x, getHead().y + 1)) {
-				setHead(new Point(getHead().x, getHead().y + 1));
-			} else
-				return true;
-		}
-
-		if (getDirection() == LEFT) {
-			if (getHead().x - 1 >= 0 && noTailAt(getHead().x - 1, getHead().y)) {
-				setHead(new Point(getHead().x - 1, getHead().y));
-			} else
-				return true;
-
-		}
-
-		if (getDirection() == RIGHT) {
-			if (getHead().x + 1 < 80 && noTailAt(getHead().x + 1, getHead().y)) {
-				setHead(new Point(getHead().x + 1, getHead().y));
-			} else
-				return true;
-		}
-
-		if (getSnakeParts().size() > getTailLength()) {
+		boundsCheck();
+		if (getSnakeParts().size() > getTailLength())//keep the snake at the correct size
 			getSnakeParts().remove(0);
+		return !(getSnakeParts().contains(getHead()));
 
-		}
-		// not sure whether to return true or false here
-		return false;
 	}
 
-	public boolean noTailAt(int x, int y) {
-		for (Point point : getSnakeParts()) {
-			if (point.equals(new Point(x, y))) {
-				return false;
-			}
-		}
-		return true;
+	private void boundsCheck() {
+		if(getHead().y<0)
+			//could be less fragile with a calculation rather than raw numbers
+			//should set fields for height/width in frame
+			setHead(new Point(getHead().x,SCALEHEIGHT));
+		else if(getHead().x<0)
+			setHead(new Point(SCALEWIDTH, getHead().y));
+		
+			
+		
 	}
 
 	public int getTailLength() {
@@ -90,10 +88,6 @@ public class Snake {
 
 	public ArrayList<Point> getSnakeParts() {
 		return snakeParts;
-	}
-
-	public void setSnakeParts(ArrayList<Point> snakeParts) {
-		this.snakeParts = snakeParts;
 	}
 
 	public Point getHead() {

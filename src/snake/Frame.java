@@ -14,7 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 public class Frame implements ActionListener, KeyListener {
-	private static final int SCALE=10;
+	private static final int SCALE=10,HEIGHT=700,WIDTH=800;
+	
 	public static Snake snake;
 
 	private JFrame jframe;
@@ -37,7 +38,7 @@ public class Frame implements ActionListener, KeyListener {
 		snake = new Snake();
 		jframe = new JFrame("Snake");
 		jframe.setVisible(true);
-		jframe.setSize(805, 700);
+		jframe.setSize(WIDTH, HEIGHT);
 		jframe.setResizable(false);
 		jframe.setLocation(getDim().width / 2 - jframe.getWidth() / 2, getDim().height / 2 - jframe.getHeight() / 2);
 		jframe.add(renderPanel = new RenderPanel(this, snake));
@@ -47,9 +48,10 @@ public class Frame implements ActionListener, KeyListener {
 	}
 
 	private void startGame() {
+		snake.startGame();
 		setOver(false);
 		setPaused(false);
-		setTime(0);
+		time=0;
 		setScore(0);
 		random = new Random();		
 		timer.start();
@@ -63,9 +65,8 @@ public class Frame implements ActionListener, KeyListener {
 		ticks++;
 
 		if (ticks % 2 == 0 && snake.getHead() != null && !isOver() && !isPaused()) {
-			setTime(getTime() + 1);
-			setOver(snake.act());
-
+			time++;
+			setOver(!snake.act());
 			if (getCherry() != null) {
 				if (snake.getHead().equals(getCherry())) {
 					setScore(getScore() + 10);
@@ -142,10 +143,6 @@ public class Frame implements ActionListener, KeyListener {
 		return time;
 	}
 
-	public void setTime(int time) {
-		this.time = time;
-	}
-
 	public Point getCherry() {
 		return cherry;
 	}
@@ -156,5 +153,13 @@ public class Frame implements ActionListener, KeyListener {
 	
 	public static int getScale() {
 		return SCALE;
+	}
+	
+	public static int getHeight(){
+		return HEIGHT;
+	}
+	
+	public static int getWidth(){
+		return WIDTH;
 	}
 }
