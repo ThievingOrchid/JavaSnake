@@ -14,11 +14,10 @@ import java.util.ArrayList;
 public class Snake {
 
 	private ArrayList<Point> snakeParts = new ArrayList<Point>();
-	
 
 	public static final short UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, SCALE = 10;
-	private final int SCALEHEIGHT=Frame.getHeight()/SCALE;
-	private final int SCALEWIDTH=Frame.getWidth()/SCALE;
+	private final int SCALEHEIGHT = Frame.getHeight() / SCALE;
+	private final int SCALEWIDTH = Frame.getWidth() / SCALE;
 
 	private int direction, tailLength;
 
@@ -50,32 +49,29 @@ public class Snake {
 			setHead(new Point(getHead().x, getHead().y - 1));
 			break;
 		case DOWN:
-			setHead(new Point(getHead().x, (getHead().y + 1)%SCALEHEIGHT));
+			setHead(new Point(getHead().x, (getHead().y + 1) % SCALEHEIGHT));
 			break;
 		case LEFT:
 			setHead(new Point(getHead().x - 1, getHead().y));
 			break;
 		case RIGHT:
-			setHead(new Point((getHead().x + 1)%SCALEWIDTH, getHead().y));
+			setHead(new Point((getHead().x + 1) % SCALEWIDTH, getHead().y));
 			break;
 		}
 		boundsCheck();
-		if (getSnakeParts().size() > getTailLength())//keep the snake at the correct size
+		if (getSnakeParts().size() > getTailLength())// keep the snake at the
+														// correct size
 			getSnakeParts().remove(0);
 		return !(getSnakeParts().contains(getHead()));
 
 	}
 
 	private void boundsCheck() {
-		if(getHead().y<0)
-			//could be less fragile with a calculation rather than raw numbers
-			//should set fields for height/width in frame
-			setHead(new Point(getHead().x,SCALEHEIGHT));
-		else if(getHead().x<0)
+		if (getHead().y < 0)
+			setHead(new Point(getHead().x, SCALEHEIGHT));
+		else if (getHead().x < 0)
 			setHead(new Point(SCALEWIDTH, getHead().y));
-		
-			
-		
+
 	}
 
 	public int getTailLength() {

@@ -14,8 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 public class Frame implements ActionListener, KeyListener {
-	private static final int SCALE=10,HEIGHT=700,WIDTH=800;
-	
+	private static final int SCALE = 10, HEIGHT = 700, WIDTH = 800;
+
 	public static Snake snake;
 
 	private JFrame jframe;
@@ -30,7 +30,7 @@ public class Frame implements ActionListener, KeyListener {
 	private boolean over = false, paused;
 
 	private Point cherry;
-	
+
 	private Random random;
 
 	public Frame() {
@@ -43,7 +43,7 @@ public class Frame implements ActionListener, KeyListener {
 		jframe.setLocation(getDim().width / 2 - jframe.getWidth() / 2, getDim().height / 2 - jframe.getHeight() / 2);
 		jframe.add(renderPanel = new RenderPanel(this, snake));
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jframe.addKeyListener(this);		
+		jframe.addKeyListener(this);
 		startGame();
 	}
 
@@ -51,9 +51,9 @@ public class Frame implements ActionListener, KeyListener {
 		snake.startGame();
 		setOver(false);
 		setPaused(false);
-		time=0;
+		time = 0;
 		setScore(0);
-		random = new Random();		
+		random = new Random();
 		timer.start();
 		setCherry(new Point(random.nextInt(79), random.nextInt(66)));
 
@@ -70,7 +70,7 @@ public class Frame implements ActionListener, KeyListener {
 			if (getCherry() != null) {
 				if (snake.getHead().equals(getCherry())) {
 					setScore(getScore() + 10);
-					snake.incTailLength();					
+					snake.incTailLength();
 					getCherry().setLocation(random.nextInt(79), random.nextInt(66));
 				}
 			}
@@ -150,16 +150,16 @@ public class Frame implements ActionListener, KeyListener {
 	public void setCherry(Point cherry) {
 		this.cherry = cherry;
 	}
-	
+
 	public static int getScale() {
 		return SCALE;
 	}
-	
-	public static int getHeight(){
+
+	public static int getHeight() {
 		return HEIGHT;
 	}
-	
-	public static int getWidth(){
+
+	public static int getWidth() {
 		return WIDTH;
 	}
 }
