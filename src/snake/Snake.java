@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * https://www.youtube.com/watch?v=S_n3lryyGZM
  * https://github.com/Jaryt/SnakeTutorial
  * 
- * @author Porter Reynolds
  */
 public class Snake {
 
